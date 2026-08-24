@@ -5,7 +5,7 @@ function Invoke-WPTProvision {
     Initialize-WPTLogging|Out-Null
     if($Resume){$result=Resume-WPTProvisioning -Profile $Profile -Unattended:$Unattended}
     else {
-        $plan=@(Get-WPTProvisioningPlan -Profile $Profile -ConfigPath $Config)
+        $plan=@(Get-WPTProvisioningPlan -Profile $Profile -ConfigPath $Config -Unattended:$Unattended)
         if($SkipHealthCheck){$plan=@($plan|Where-Object Name -ne 'HealthCheck')}
         if(-not $Unattended){Show-WPTProvisioningPlan -Plan $plan}
         $result=Invoke-WPTProvisioningPlan -Plan $plan -Profile $Profile -DryRun:$DryRun -Unattended:$Unattended

@@ -1,3 +1,5 @@
+param([switch]$AllowMissingPester)
+
 $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 
@@ -21,7 +23,8 @@ if ($syntaxErrors.Count -gt 0) {
 Write-Host "Sintaxe OK." -ForegroundColor Green
 if (-not (Get-Command Invoke-Pester -ErrorAction SilentlyContinue)) {
     Write-Host "Pester nao esta disponivel; testes nao executados neste ambiente." -ForegroundColor Yellow
-    exit 0
+    if ($AllowMissingPester) { exit 0 }
+    exit 1
 }
 
 Write-Host "Executando testes Pester..." -ForegroundColor Cyan

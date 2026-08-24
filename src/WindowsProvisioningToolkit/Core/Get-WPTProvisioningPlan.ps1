@@ -7,11 +7,22 @@ function Import-WPTProfile {
     $config
 }
 function Get-WPTProvisioningPlan {
-    param([string]$Profile='Portfolio',[string]$ConfigPath)
+    param([string]$Profile='Portfolio',[string]$ConfigPath,[switch]$Unattended)
     $c=Import-WPTProfile -Profile $Profile -ConfigPath $ConfigPath
     $tasks=@([pscustomobject]@{Name='HealthCheck';Category='Health';Enabled=if($c.Security.HealthCheck -ne $null){[bool]$c.Security.HealthCheck}else{$true};DependsOn=@();RequiresAdmin=[bool]$c.Settings.RequireAdmin;Action={Invoke-WPTHealthCheck}})
-    $tasks+= [pscustomobject]@{Name='ConfigureSystem';Category='System';Enabled=$true;DependsOn=@('HealthCheck');RequiresAdmin=$true;Action={@(Get-WPTSystemTasks)}}
-    if($c.System.Domain.AutoJoin){$tasks+=[pscustomobject]@{Name='DomainJoin';Category='Network';Enabled=$true;DependsOn=@('ConfigureSystem');RequiresAdmin=$true;Action={Add-WPTComputerToDomain -Prompt -SuppressRestartPrompt}}}
+    $tasks+= [pscustomobject]@{Name='ConfigureSystem';Category='System';Enabled=$true;DependsOn=@('HealthCheck');RequiresAdmin=$true;Action={
+        $systemResult=Invoke-WPTTasks -Tasks @(Get-WPTSystemTasks)
+        if($systemResult.Failure -gt 0){throw "Uma ou mais tarefas de sistema falharam."}
+        $systemResult
+    }}
+    if($c.System.Domain.AutoJoin){
+        if($Unattended){
+            $tasks+=[pscustomobject]@{Name='DomainJoin';Category='Network';Enabled=$true;DependsOn=@('ConfigureSystem');RequiresAdmin=$true;Action={Add-WPTComputerToDomain -DomainName $c.System.Domain.DefaultDomainName -Unattended -SuppressRestartPrompt}}
+        }
+        else {
+            $tasks+=[pscustomobject]@{Name='DomainJoin';Category='Network';Enabled=$true;DependsOn=@('ConfigureSystem');RequiresAdmin=$true;Action={Add-WPTComputerToDomain -Prompt -SuppressRestartPrompt}}
+        }
+    }
     $tasks
 }
 function Show-WPTProvisioningPlan { param([array]$Plan); Write-Host 'Provisioning Plan'; $i=1; foreach($t in $Plan|Where-Object Enabled){Write-Host ("{0}. {1}" -f $i,$t.Name);$i++}; Write-Host ("{0} tasks planned." -f ($i-1)) }

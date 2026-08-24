@@ -59,6 +59,8 @@ function Add-WPTComputerToDomain {
 
         [switch]$Prompt,
 
+        [switch]$Unattended,
+
         [switch]$SuppressRestartPrompt
     )
 
@@ -71,7 +73,7 @@ function Add-WPTComputerToDomain {
     $defaultDomainName = $domainConfig.DefaultDomainName
     $suggestDefaultDomain = [bool]$domainConfig.SuggestDefaultDomain
 
-    if ($Prompt) {
+    if ($Prompt -and -not $Unattended) {
         $answer = Read-Host "Deseja adicionar este computador ao dominio? (S/N)"
 
         if ($answer -notmatch "^[Ss]$") {
@@ -81,6 +83,10 @@ function Add-WPTComputerToDomain {
 
             return "SKIPPED"
         }
+    }
+
+    if ([string]::IsNullOrWhiteSpace($DomainName) -and $Unattended) {
+        throw "O dominio deve ser informado no modo unattended."
     }
 
     if ([string]::IsNullOrWhiteSpace($DomainName)) {
@@ -131,6 +137,10 @@ function Add-WPTComputerToDomain {
             -Reason "Entrada no dominio $DomainName (simulada)"
 
         return $true
+    }
+
+    if ($Unattended) {
+        throw "Credenciais do dominio devem ser fornecidas por um fluxo nao interativo."
     }
 
     Write-Host ""

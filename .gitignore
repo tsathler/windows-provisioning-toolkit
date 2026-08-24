@@ -13,6 +13,7 @@
 
 # WindowsProvisioningToolkit local/corporate configuration
 src/WindowsProvisioningToolkit/Config/Corporate.local.json
+.tools/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

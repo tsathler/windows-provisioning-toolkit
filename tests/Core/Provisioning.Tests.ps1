@@ -14,6 +14,54 @@ Describe "Provisionamento declarativo" {
         ($result.Checks[0].PSObject.Properties.Name -contains 'Remediation') | Should Be $true
     }
 
+    It "executa as subtarefas de sistema pelo TaskRunner" {
+        $module = Get-Module WindowsProvisioningToolkit
+
+        $result = & $module {
+            $script:LogFilePath = Join-Path $env:TEMP "windows-provisioning-toolkit-pester-plan.log"
+            $plan = @(Get-WPTProvisioningPlan -Profile Portfolio)
+            $plan[1].Action.ToString() | Should Match "Invoke-WPTTasks"
+            & $plan[1].Action
+        }
+
+        $result.Skipped | Should Be 1
+        $result.Failure | Should Be 0
+        $result.Details[0].Name | Should Be "Configurar energia temporariamente"
+    }
+
+    It "nao usa prompt de dominio no plano unattended" {
+        $module = Get-Module WindowsProvisioningToolkit
+        $root = Join-Path $env:TEMP ("wpt-unattended-" + [guid]::NewGuid())
+        New-Item $root -ItemType Directory -Force | Out-Null
+        try {
+            $config = & $module { Get-WPTConfig }
+            $config.System.Domain.AutoJoin = $true
+            $config.System.Domain.DefaultDomainName = "example.local"
+            $config.System.Domain.SuggestDefaultDomain = $false
+            $config.Paths.Data = $root
+            $config.Paths.Logs = Join-Path $root "Logs"
+            $config.Paths.Reports = Join-Path $root "Reports"
+            $configPath = Join-Path $root "unattended.json"
+            $config | ConvertTo-Json -Depth 12 | Set-Content $configPath
+
+            & $module {
+                $plan = @(Get-WPTProvisioningPlan -Profile Portfolio -ConfigPath $args[0] -Unattended)
+                $actionText = $plan[2].Action.ToString()
+                $actionText | Should Match "-Unattended"
+                $actionText | Should Not Match "-Prompt"
+            } $configPath
+        }
+        finally {
+            Remove-Item $root -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
+
+    It "exige Pester por padrao na validacao" {
+        $validationScript = Get-Content (Join-Path $PSScriptRoot "..\..\scripts\validate.ps1") -Raw
+        $validationScript | Should Match "AllowMissingPester"
+        $validationScript | Should Match "exit 1"
+    }
+
     It "salva e carrega checkpoint" {
         $module = Get-Module WindowsProvisioningToolkit
         $root = Join-Path $env:TEMP ("wpt-state-" + [guid]::NewGuid())
