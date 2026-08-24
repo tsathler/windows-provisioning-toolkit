@@ -14,6 +14,7 @@ $moduleRoot = $PSScriptRoot
 
 $modules = @(
     "Core"
+    "Health"
     "Security"
     "System"
     "Network"
@@ -67,4 +68,4 @@ if (Test-Path -LiteralPath $publicPath -PathType Container) {
 # Exporta a API pública
 # ============================================================================
 
-Export-ModuleMember -Function Start-WPT
+Export-ModuleMember -Function Start-WPT, Invoke-WPTProvision, Get-WPTProvisioningPlan, Invoke-WPTHealthCheck, Invoke-WPTSecurityAssessment, Invoke-WPTSecurityRemediation, Save-WPTProvisioningState, Get-WPTProvisioningState, Clear-WPTProvisioningState, Resume-WPTProvisioning
