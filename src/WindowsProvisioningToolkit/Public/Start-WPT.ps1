@@ -75,6 +75,25 @@ try {
                 Invoke-WPTExecutionProfileFlow
             }
 
+            "6" {
+                Write-Host ""
+                Write-Host "Executando Health Check. Aguarde..." -ForegroundColor Cyan
+                $health = Invoke-WPTHealthCheck
+                Write-Host ""
+                Write-Host ("Health Check: {0}" -f $health.Status) -ForegroundColor $(if ($health.Status -eq "READY") { "Green" } elseif ($health.Status -eq "READY_WITH_WARNINGS") { "Yellow" } else { "Red" })
+                Write-Host ""
+                $health.Checks | Format-Table Name, Status, Message -AutoSize | Out-Host
+                Read-WPTPause
+            }
+
+            "7" {
+                Write-Host ""
+                Write-Host "Executando Avaliacao de Seguranca. Aguarde..." -ForegroundColor Cyan
+                $assessment = Invoke-WPTSecurityAssessment
+                $assessment.Checks | Format-Table Name, Status, Message -AutoSize
+                Read-WPTPause
+            }
+
             "0" {
                 Write-WPTLog `
                     -Message "WindowsProvisioningToolkit finalizado pelo usuario." `

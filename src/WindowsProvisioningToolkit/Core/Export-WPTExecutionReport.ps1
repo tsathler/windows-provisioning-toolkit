@@ -52,6 +52,8 @@ function Export-WPTExecutionReport {
         Timestamp = (Get-Date).ToString("s")
         RestartRequired = $restartState.Required
         RestartReasons = @($restartState.Reasons)
+        HealthCheck = if(Get-Variable -Name WPTLastHealthCheck -Scope Script -ErrorAction SilentlyContinue){$script:WPTLastHealthCheck}else{$null}
+        SecurityAssessment = if(Get-Variable -Name WPTLastSecurityAssessment -Scope Script -ErrorAction SilentlyContinue){$script:WPTLastSecurityAssessment}else{$null}
         Summary = [pscustomobject]@{
             Total = $Result.Total
             Success = $Result.Success

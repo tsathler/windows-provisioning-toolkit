@@ -1,7 +1,7 @@
 {
   "Application": {
     "Name": "WindowsProvisioningToolkit",
-    "Version": "0.2.0"
+    "Version": "0.5.0"
   },
   "Profile": {
     "Name": "Portfolio",
@@ -13,7 +13,37 @@
     "Reports": "C:\\ProgramData\\WindowsProvisioningToolkit\\Reports"
   },
   "Settings": {
-    "RequireAdmin": true
+    "RequireAdmin": true,
+    "HealthCheck": {
+      "MinimumMemoryGB": 8,
+      "MinimumFreeDiskGB": 30,
+      "RequireWinget": true,
+      "RequireAdministrator": true,
+      "RequireInternet": true
+    },
+    "Execution": {
+      "AllowAutomaticReboot": false,
+      "StopOnHealthFailure": true,
+      "ContinueOnWarning": true
+    }
+  },
+  "HealthCheck": {
+    "MinimumMemoryGB": 8,
+    "MinimumFreeDiskGB": 30,
+    "RequireWinget": true,
+    "RequireAdministrator": true,
+    "RequireInternet": true
+  },
+  "Execution": {
+    "AllowAutomaticReboot": false,
+    "StopOnHealthFailure": true,
+    "ContinueOnWarning": true
+  },
+  "Security": {
+    "EnableFirewall": true,
+    "DisableSMBv1": true,
+    "RequireSecureBoot": false,
+    "EnableBitLocker": false
   },
   "System": {
     "Domain": {

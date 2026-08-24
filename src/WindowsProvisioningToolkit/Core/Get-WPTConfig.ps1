@@ -131,7 +131,7 @@ function Get-WPTConfig {
             -Override $corporateConfig
     }
 
-    Test-WPTConfig -Config $config
+    Test-WPTConfig -Config $config | Out-Null
     return $config
 }
 
@@ -143,6 +143,10 @@ function Test-WPTConfig {
             throw "Configuracao invalida: secao obrigatoria ausente: $section"
         }
     }
+
+    if (-not $Config.ContainsKey('HealthCheck')) { $Config.HealthCheck = @{} }
+    if (-not $Config.ContainsKey('Execution')) { $Config.Execution = @{ AllowAutomaticReboot=$false; StopOnHealthFailure=$true; ContinueOnWarning=$true } }
+    if (-not $Config.ContainsKey('Security')) { $Config.Security = @{} }
 
     foreach ($pathName in @('Data', 'Logs', 'Reports')) {
         if ([string]::IsNullOrWhiteSpace([string]$Config.Paths[$pathName])) {
