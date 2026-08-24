@@ -35,6 +35,31 @@
 - [x] Redação básica de dados sensíveis nos logs
 - [x] Cobertura inicial da validação de configuração
 
+## v0.2.1 - Health Check
+
+- [x] Diagnóstico padronizado de sistema, hardware, rede e segurança
+- [x] Resultado READY/READY_WITH_WARNINGS/NOT_READY
+- [x] Opção manual no menu e seção no relatório
+
+## v0.3.0 - Perfis declarativos
+
+- [x] Geração de plano por perfil e dependências básicas
+- [x] Dry Run e visualização do plano
+
+## v0.3.1 - Reboot + Resume
+
+- [x] Estado persistente e retomada sem reexecutar tarefas concluídas
+
+## v0.4.0 - Security Baseline
+
+- [x] Assessment separado de remediation
+- [x] Remediações controladas por configuração e confirmação
+
+## v0.5.0 - Unattended Mode
+
+- [x] Entrada por parâmetros, logs, relatório e códigos de saída
+
 ## Próximas melhorias
 
 - [ ] Expandir cobertura de testes para fluxos interativos
+- [ ] v0.6.0 - Image Builder / ISO personalizada (fora deste ciclo)

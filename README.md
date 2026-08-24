@@ -8,7 +8,7 @@ Este repositório é a versão segura para portfólio. Ele demonstra menus, inst
 
 ### Status
 
-Versão atual: `0.2.0` — MVP com validação, CI, instalação de aplicativos e configuração do sistema.
+Versão atual: `0.5.0` — provisionamento declarativo, Health Check, checkpoint/resume, baseline de segurança e modo unattended.
 
 ### Requisitos
 
@@ -76,7 +76,7 @@ This repository is the portfolio-safe version of the project. It demonstrates me
 
 ### Status
 
-Current version: `0.2.0` — an MVP with validation, CI, application installation, and system configuration.
+Current version: `0.5.0` — declarative provisioning, Health Check, checkpoint/resume, security baseline, and unattended execution.
 
 ### Requirements
 
@@ -125,3 +125,13 @@ For automation that should not wait for input after a failure, use:
 ```
 
 JSON reports are saved to `C:\ProgramData\WindowsProvisioningToolkit\Reports`.
+
+### v0.5.0 unattended
+
+O fluxo declarativo pode ser executado sem menus:
+
+```powershell
+.\Main.ps1 -Profile Portfolio -Unattended -NoPause -DryRun
+```
+
+Também estão disponíveis `-Config`, `-SkipHealthCheck` e `-Resume`. A API equivalente é `Invoke-WPTProvision`. Códigos de saída: `0` sucesso, `4` falha de tarefa e `5` reinicialização requerida. O Health Check pode ser executado pelo menu ou por `Invoke-WPTHealthCheck`; o assessment de segurança é separado da remediation.

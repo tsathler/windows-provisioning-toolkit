@@ -68,6 +68,13 @@ src/WindowsProvisioningToolkit/Config/Corporate.local.json
 
 `Corporate.local.json` é ignorado pelo Git e não pode conter credenciais, usuários internos, servidores privados ou segredos de produção. O repositório inclui apenas `Corporate.example.json`, que usa `example.local` como valor seguro.
 
+## Camadas v0.5.0
+
+- `Health`: checks independentes com resultado `PASS`, `WARN` ou `FAIL`.
+- `Core`: perfis, plano, dependências, checkpoint/resume, Dry Run e relatório.
+- `Security`: assessment somente leitura e remediation explícita.
+- `Public`: `Invoke-WPTProvision` para execução interativa ou unattended.
+
 ## Fluxo de execução
 
 1. `Main.ps1` imports the module and calls `Start-WPT`.
@@ -76,6 +83,8 @@ src/WindowsProvisioningToolkit/Config/Corporate.local.json
 4. Each flow creates task objects and sends them to `Invoke-WPTTasks`.
 5. The task runner records success, skipped, and failure counts.
 6. Flows with summaries export a JSON report to the configured report path.
+
+Para automação, `Invoke-WPTProvision` carrega o perfil, executa o Health Check, gera o plano e retorna códigos: `0` sucesso, `4` falha de tarefa e `5` reinicialização requerida. `Main.ps1` aceita `-Profile`, `-Unattended`, `-DryRun`, `-NoPause`, `-SkipHealthCheck`, `-Resume` e `-Config`.
 
 ## Segurança
 

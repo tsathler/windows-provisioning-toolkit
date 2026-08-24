@@ -4,7 +4,7 @@
     # ========================================================================
 
     RootModule        = 'WindowsProvisioningToolkit.psm1'
-    ModuleVersion      = '0.2.0'
+    ModuleVersion      = '0.5.0'
     GUID              = '5f3a1c8e-2b4d-4e6a-9c7f-1a2b3c4d5e6f'
 
     Author            = 'Thiago Sathler'
@@ -24,7 +24,7 @@
     # ========================================================================
 
     FunctionsToExport = @(
-        'Start-WPT'
+        'Start-WPT', 'Invoke-WPTProvision', 'Get-WPTProvisioningPlan', 'Invoke-WPTHealthCheck', 'Invoke-WPTSecurityAssessment', 'Invoke-WPTSecurityRemediation', 'Save-WPTProvisioningState', 'Get-WPTProvisioningState', 'Clear-WPTProvisioningState', 'Resume-WPTProvisioning'
     )
 
     CmdletsToExport   = @()

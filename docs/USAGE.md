@@ -1,4 +1,4 @@
-# WindowsProvisioningToolkit v0.2.0 - Guia de Uso
+# WindowsProvisioningToolkit v0.5.0 - Guia de Uso
 
 ## Como executar
 
@@ -18,6 +18,8 @@ O WindowsProvisioningToolkit carrega o modulo local em `src/WindowsProvisioningT
 [3] Perfil e Configuracao
 [4] Alternar Dry Run
 [5] Perfis de Execucao
+[6] Executar Health Check
+[7] Avaliacao de Seguranca
 [0] Sair
 ```
 
