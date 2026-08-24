@@ -82,6 +82,51 @@
       "Arguments": [
         "-p"
       ]
+    },
+    {
+      "Name": "PassMark BurnInTest",
+      "Category": "Diagnostics",
+      "Optional": true,
+      "DetectionNames": [
+        "BurnInTest",
+        "PassMark BurnInTest"
+      ],
+      "InstallerType": "Winget",
+      "Source": {
+        "Type": "Winget",
+        "PackageId": "PassMark.BurnInTest"
+      },
+      "Arguments": []
+    },
+    {
+      "Name": "CPU-Z",
+      "Category": "Diagnostics",
+      "Optional": true,
+      "DetectionNames": [
+        "CPUID CPU-Z",
+        "CPU-Z"
+      ],
+      "InstallerType": "Winget",
+      "Source": {
+        "Type": "Winget",
+        "PackageId": "CPUID.CPU-Z"
+      },
+      "Arguments": []
+    },
+    {
+      "Name": "HWMonitor",
+      "Category": "Diagnostics",
+      "Optional": true,
+      "DetectionNames": [
+        "CPUID HWMonitor",
+        "HWMonitor"
+      ],
+      "InstallerType": "Winget",
+      "Source": {
+        "Type": "Winget",
+        "PackageId": "CPUID.HWMonitor"
+      },
+      "Arguments": []
     }
   ]
 }

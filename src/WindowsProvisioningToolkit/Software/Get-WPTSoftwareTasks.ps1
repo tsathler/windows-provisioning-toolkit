@@ -2,14 +2,14 @@
 #
 # WindowsProvisioningToolkit - Software Tasks
 #
-# Gera tarefas de instalação de softwares a partir do software.json
+# Gera tarefas de instalacao de softwares a partir do software.config.json
 #
 # ============================================================================
 
 function Get-WPTSoftwareTasks {
 
     param(
-        [array]$SoftwareList = @(Get-WPTSoftware)
+        [array]$SoftwareList = @(Get-WPTSoftware | Where-Object { -not $_.Optional })
     )
 
     $testSoftwareInstalled = ${function:Test-WPTSoftwareInstalled}

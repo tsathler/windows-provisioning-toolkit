@@ -90,7 +90,7 @@ src/WindowsProvisioningToolkit/Config/Corporate.local.json
 Automated validation is centralized in:
 
 ```powershell
-.\tests\Run-Tests.ps1
+.\scripts\validate.ps1
 ```
 
-O script valida a sintaxe PowerShell e executa os testes Pester. Se algum teste falhar, o script termina com erro para que a verificação local e futuras execuções de CI detectem corretamente o problema.
+O script valida a sintaxe PowerShell e delega os testes Pester existentes. Se algum teste falhar, a validação termina com erro para que a verificação local e futuras execuções de CI detectem corretamente o problema.

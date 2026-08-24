@@ -24,7 +24,17 @@ function Show-WPTSoftwareSelectionMenu {
         Write-Host "========================================" -ForegroundColor Cyan
         Write-Host ""
 
+        $lastCategory = $null
+
         for ($index = 0; $index -lt $SoftwareList.Count; $index++) {
+            $category = if ($SoftwareList[$index].Optional) { "Softwares opcionais" } else { "Softwares padrao" }
+
+            if ($category -ne $lastCategory) {
+                Write-Host ""
+                Write-Host $category -ForegroundColor Yellow
+                $lastCategory = $category
+            }
+
             $number = $index + 1
             $marker = if ($selectedIndexes.Contains($index)) { "[X]" } else { "[ ]" }
 

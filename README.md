@@ -26,9 +26,11 @@ Execute no PowerShell:
 
 ### Instalação de aplicativos
 
-O MVP permite selecionar e instalar Google Chrome, Mozilla Firefox, WinRAR, AnyDesk, PDFCreator e Microsoft Teams. Aplicativos já instalados são ignorados. Os logs são gravados em `C:\ProgramData\WindowsProvisioningToolkit\Logs` e um resumo é exibido ao final.
+O MVP permite selecionar e instalar Google Chrome, Mozilla Firefox, WinRAR, AnyDesk, PDFCreator e Microsoft Teams. BurnInTest, CPU-Z e HWMonitor ficam disponíveis como softwares opcionais e podem ser selecionados individualmente no menu. Aplicativos já instalados são ignorados. Os logs são gravados em `C:\ProgramData\WindowsProvisioningToolkit\Logs` e um resumo é exibido ao final.
 
 Chrome, Firefox, WinRAR, AnyDesk e PDFCreator usam Winget. O PDFCreator usa o pacote `PDFCreator-Free` com `/COMPONENTS="none"`. O Microsoft Teams usa `teamsbootstrapper.exe -p`.
+
+Para adicionar outro software opcional, inclua uma entrada declarativa em `src/WindowsProvisioningToolkit/Software/software.config.json`, com `Optional: true`, nomes de detecção e uma origem confirmada. O pipeline de seleção, detecção e instalação é reutilizado automaticamente.
 
 ### Configuração do sistema
 
@@ -41,6 +43,12 @@ O perfil padrão é `Portfolio`. Dados corporativos locais devem ficar em `src/W
 Os perfis de execução são Portfolio, Corporate básico, Corporate completo, Somente aplicativos e Somente sistema. O modo `Dry Run` simula instalações e alterações sem aplicar mudanças destrutivas.
 
 ### Testes e documentação
+
+```powershell
+.\scripts\validate.ps1
+```
+
+Para executar somente os testes diretamente:
 
 ```powershell
 .\tests\Run-Tests.ps1
@@ -86,9 +94,11 @@ Run from PowerShell:
 
 ### Application installation
 
-The MVP can select and install Google Chrome, Mozilla Firefox, WinRAR, AnyDesk, PDFCreator, and Microsoft Teams. Already-installed applications are skipped. Logs are written to `C:\ProgramData\WindowsProvisioningToolkit\Logs`, and a final summary is displayed.
+The MVP can select and install Google Chrome, Mozilla Firefox, WinRAR, AnyDesk, PDFCreator, and Microsoft Teams. BurnInTest, CPU-Z, and HWMonitor are available as optional applications and can be selected individually. Already-installed applications are skipped. Logs are written to `C:\ProgramData\WindowsProvisioningToolkit\Logs`, and a final summary is displayed.
 
 Chrome, Firefox, WinRAR, AnyDesk, and PDFCreator use Winget. PDFCreator uses the `PDFCreator-Free` package with `/COMPONENTS="none"`. Microsoft Teams uses `teamsbootstrapper.exe -p`.
+
+To add another optional application, add a declarative entry to `src/WindowsProvisioningToolkit/Software/software.config.json` with `Optional: true`, confirmed detection names, and a confirmed source. The existing selection, detection, and installation pipeline is reused automatically.
 
 ### System configuration
 

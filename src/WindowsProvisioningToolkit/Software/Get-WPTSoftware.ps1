@@ -36,5 +36,45 @@ function Get-WPTSoftware {
     }
 
 
-    return $software.Software
+    $softwareList = @($software.Software)
+
+    Test-WPTSoftwareCatalog -SoftwareList $softwareList | Out-Null
+
+    return $softwareList
+}
+
+function Test-WPTSoftwareCatalog {
+
+    param(
+        [Parameter(Mandatory = $true)]
+        [array]$SoftwareList
+    )
+
+    if ($null -eq $softwareList -or $softwareList.Count -eq 0) {
+        throw "software.config.json nao possui softwares configurados."
+    }
+
+    foreach ($softwareItem in $softwareList) {
+        if ([string]::IsNullOrWhiteSpace($softwareItem.Name)) {
+            throw "Configuracao de software invalida: Name e obrigatorio."
+        }
+
+        if (-not $softwareItem.DetectionNames -or @($softwareItem.DetectionNames).Count -eq 0) {
+            throw "Configuracao de software invalida para $($softwareItem.Name): DetectionNames e obrigatorio."
+        }
+
+        if (-not $softwareItem.Source -or [string]::IsNullOrWhiteSpace($softwareItem.Source.Type)) {
+            throw "Configuracao de software invalida para $($softwareItem.Name): Source.Type e obrigatorio."
+        }
+
+        if ($softwareItem.Source.Type -eq "Winget" -and [string]::IsNullOrWhiteSpace($softwareItem.Source.PackageId)) {
+            throw "Configuracao de software invalida para $($softwareItem.Name): Source.PackageId e obrigatorio para Winget."
+        }
+
+        if ($softwareItem.Source.Type -eq "Download" -and [string]::IsNullOrWhiteSpace($softwareItem.Source.Url)) {
+            throw "Configuracao de software invalida para $($softwareItem.Name): Source.Url e obrigatorio para Download."
+        }
+    }
+
+    return $true
 }
