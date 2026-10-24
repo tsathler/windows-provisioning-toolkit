@@ -1,5 +1,30 @@
 # WindowsProvisioningToolkit
 
+> **Portfolio-safe PowerShell automation toolkit** · Declarative Windows provisioning · Dry Run · Pester tests · Checkpoint/resume
+>
+> **Versão / Version:** `0.5.0` · **Foco / Focus:** automação reproduzível, segurança e rastreabilidade.
+
+**[Português](#português) · [English](#english)**
+
+### Visão rápida / At a glance
+
+| Capacidade / Capability | Implementação / Implementation |
+| --- | --- |
+| Provisionamento / Provisioning | Perfis declarativos, instalação de aplicativos e configuração Windows |
+| Execução segura / Safe execution | Dry Run, confirmações e sem reinicialização automática |
+| Continuidade / Recovery | Checkpoint/resume, logs e relatórios JSON |
+| Qualidade / Quality | Validação de sintaxe e testes automatizados com Pester |
+
+**Demonstração sem alterações no sistema / Non-destructive demo:**
+
+```powershell
+.\Main.ps1 -Profile Portfolio -Unattended -NoPause -DryRun
+```
+
+O projeto é uma versão sanitizada para portfólio: não inclui domínios, servidores nem credenciais internas. / This portfolio version excludes internal domains, servers, and credentials.
+
+---
+
 ## Português
 
 O WindowsProvisioningToolkit é um toolkit modular em PowerShell para automatizar o provisionamento de estações de trabalho Windows e a configuração de ambientes corporativos.
